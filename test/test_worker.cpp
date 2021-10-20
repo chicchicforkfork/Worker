@@ -25,15 +25,15 @@ int main(int argc, char **argv) {
     /// 여러개의 worker가 job을 처리함
     cout << "[multi worker] =================\n";
     for (int i = 0; i < 8; i++) {
-      manager->addJobMultiWorker(
+      manager->add_job(
           "test1", //
           [](std::shared_ptr<Worker> worker, std::shared_ptr<Job> job) {
             (void)(worker);
             (void)(job);
             this_thread::sleep_for(1s);
             /*
-            cout << "[multi] worker:" << worker->getWorkerID()
-                 << ", job :" << job->getJobID() << endl;
+            cout << "[multi] worker:" << worker->worker_id()
+                 << ", job :" << job->job_id() << endl;
                  */
           },
           affinity);
@@ -56,13 +56,13 @@ int main(int argc, char **argv) {
     /// 지정된 worker는 job name의 문자열 해쉬값으로 worker가 선택됨
     cout << "[multi worker with affinity #1] =================\n";
     for (int i = 0; i < 8; i++) {
-      manager->addJobMultiWorker(
+      manager->add_job(
           "test2", //
           [](std::shared_ptr<Worker> worker, std::shared_ptr<Job> job) {
             (void)(worker);
             (void)(job);
-            cout << "[multi] worker:" << worker->getWorkerID()
-                 << ", job :" << job->getJobID() << endl;
+            cout << "[multi] worker:" << worker->worker_id()
+                 << ", job :" << job->job_id() << endl;
           },
           true);
       cout << "\tpush #" + to_string(i + 1) << endl;
@@ -77,13 +77,13 @@ int main(int argc, char **argv) {
 
     cout << "[multi worker with affinity #2] =================\n";
     for (int i = 0; i < 8; i++) {
-      manager->addJobMultiWorker(
+      manager->add_job(
           "testtest2", //
           [](std::shared_ptr<Worker> worker, std::shared_ptr<Job> job) {
             (void)(worker);
             (void)(job);
-            cout << "[multi] worker:" << worker->getWorkerID()
-                 << ", job :" << job->getJobID() << endl;
+            cout << "[multi] worker:" << worker->worker_id()
+                 << ", job :" << job->job_id() << endl;
           },
           true);
       cout << "\tpush #" + to_string(i + 1) << endl;
@@ -102,15 +102,15 @@ int main(int argc, char **argv) {
     /// 단일 worker가 job을 처리함
     cout << "[single worker] =================\n";
     for (int i = 0; i < 8; i++) {
-      manager->addJobSingleWorker(
+      manager->add_job(
           "test3", //
           [](std::shared_ptr<Worker> worker, std::shared_ptr<Job> job) {
             (void)(worker);
             (void)(job);
             this_thread::sleep_for(1s);
             /*
-            cout << "[single] worker:" << worker->getWorkerID()
-                 << ", job :" << job->getJobID() << endl;
+            cout << "[single] worker:" << worker->worker_id()
+                 << ", job :" << job->job_id() << endl;
                  */
           });
       cout << "\tpush #" + to_string(i + 1) << endl;

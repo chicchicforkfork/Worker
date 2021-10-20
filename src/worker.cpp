@@ -14,29 +14,21 @@
 using namespace std;
 using namespace chkchk;
 
-Worker::Worker(WorkerManager *worker_manager, //
-               int worker_id,                 //
-               JOB_QUEUE_TYPE job_type) {
-
+Worker::Worker(WorkerManager *worker_manager, int worker_id) {
   _worker_manager = worker_manager;
   _worker_id = worker_id;
-  _job_type = job_type;
   _completed_jobs = 0;
 }
 
-shared_ptr<void> Worker::getCTX() { //
+shared_ptr<void> Worker::ctx() { //
   return _ctx;
 }
 
-void Worker::setCTX(shared_ptr<void> ctx) { //
+void Worker::ctx(shared_ptr<void> ctx) { //
   _ctx = ctx;
 }
 
-JOB_QUEUE_TYPE Worker::getJobType() { //
-  return _job_type;
-}
-
-const WorkerManager *Worker::getWorkerManager() { //
+const WorkerManager *Worker::worker_manager() { //
   return _worker_manager;
 }
 
@@ -48,14 +40,14 @@ void Worker::terminate() { //
   _running = false;
 }
 
-std::size_t Worker::getWorkerID() { //
+std::size_t Worker::worker_id() { //
   return _worker_id;
 }
 
-std::size_t Worker::getCompletedJobs() { //
+std::size_t Worker::completed_jobs() { //
   return _completed_jobs;
 }
 
-std::size_t Worker::incCompletedJobs() { //
+std::size_t Worker::inc_completed_jobs() { //
   return ++_completed_jobs;
 }

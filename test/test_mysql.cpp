@@ -25,14 +25,14 @@ void mysql_test(int thread_num) {
 
   auto driver = get_driver_instance();
 
-  manager->setWorkerInitialize([&driver](shared_ptr<Worker> worker) { //
+  manager->initialize([&driver](shared_ptr<Worker> worker) { //
     try {
       shared_ptr<Connection> conn(
           driver->connect("tcp://127.0.0.1:3306", "api", "qwer1234"));
       conn->setSchema("api");
-      // cout << "create sql connection: #" << worker->getWorkerID() << endl;
+      // cout << "create sql connection: #" << worker->worker_id() << endl;
 
-      worker->setCTX(conn);
+      worker->ctx(conn);
     } catch (sql::SQLException &e) {
       cout << "# ERR: SQLException in " << __FILE__;
       cout << "(" << __FUNCTION__ << ") on line " << __LINE__ << endl;
@@ -51,25 +51,25 @@ void mysql_test(int thread_num) {
     {
       Kairos c("add job", &cstack);
       for (int i = 0; i < 4; i++) {
-        manager->addJobMultiWorker(
-            "select",                                            //
-            [](shared_ptr<Worker> worker, shared_ptr<Job> job) { //
-              sql::Statement *stmt;
-              sql::ResultSet *res;
-              (void)job;
-              sleep(5);
-              shared_ptr<void> con = worker->getCTX();
-              Connection *conn = reinterpret_cast<Connection *>(con.get());
-              stmt = conn->createStatement();
-              res = stmt->executeQuery("SELECT id, name FROM foo");
-              while (res->next()) {
+        manager->add_job("select",                                            //
+                         [](shared_ptr<Worker> worker, shared_ptr<Job> job) { //
+                           sql::Statement *stmt;
+                           sql::ResultSet *res;
+                           (void)job;
+                           sleep(5);
+                           shared_ptr<void> con = worker->ctx();
+                           Connection *conn =
+                               reinterpret_cast<Connection *>(con.get());
+                           stmt = conn->createStatement();
+                           res = stmt->executeQuery("SELECT id, name FROM foo");
+                           while (res->next()) {
 #if 0
             cout << res->getString("id") << ":" << res->getString("name")
                  << endl;
 #endif
-              }
-              cout << "\tpop #" << worker->getWorkerID() << endl;
-            });
+                           }
+                           cout << "\tpop #" << worker->worker_id() << endl;
+                         });
         sleep(1);
         cout << "push\n";
       }
