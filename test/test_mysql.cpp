@@ -14,7 +14,7 @@
 #include <unistd.h>
 
 using namespace std;
-using namespace soso;
+using namespace chkchk;
 using namespace sql;
 
 template <typename T> //

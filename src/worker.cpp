@@ -12,7 +12,7 @@
 #include <vector>
 
 using namespace std;
-using namespace soso;
+using namespace chkchk;
 
 Worker::Worker(WorkerManager *worker_manager, //
                int worker_id,                 //

@@ -9,7 +9,7 @@
 #include <unistd.h>
 
 using namespace std;
-using namespace soso;
+using namespace chkchk;
 
 int main(int argc, char **argv) {
   WorkerManager *manager;

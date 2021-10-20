@@ -1,5 +1,5 @@
-#ifndef __SOSO_WORKER_H__
-#define __SOSO_WORKER_H__
+#ifndef __WORKER_H__
+#define __WORKER_H__
 
 #include <atomic>
 #include <chrono>
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <vector>
 
-namespace soso {
+namespace chkchk {
 
 class WorkerManager;
 class Worker;
@@ -298,5 +298,5 @@ public:
   void run(bool block = false);
 };
 
-} // namespace soso
+} // namespace chkchk
 #endif

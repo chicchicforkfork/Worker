@@ -2,7 +2,7 @@
 #include <pthread.h>
 
 using namespace std;
-using namespace soso;
+using namespace chkchk;
 
 static const char *job_type_str[] = { //
     "m_worker",                       //

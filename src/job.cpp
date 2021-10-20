@@ -3,7 +3,7 @@
 #include "worker.h"
 
 using namespace std;
-using namespace soso;
+using namespace chkchk;
 
 Job::Job(size_t job_id, job_handler_t &handler,
          bool affinity) { //
