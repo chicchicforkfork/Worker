@@ -5,8 +5,7 @@
 using namespace std;
 using namespace chkchk;
 
-Job::Job(size_t job_id, job_handler_t &handler, const void *job_data,
-         bool affinity) {
+Job::Job(size_t job_id, void *job_data, job_handler_t &handler, bool affinity) {
   _job_id = job_id;
   _handler = handler;
   _job_data = job_data;
@@ -25,4 +24,4 @@ size_t Job::worker_id() const { return _worker_id; }
 
 size_t Job::job_id() const { return _job_id; }
 
-const void *Job::job_data() const { return _job_data; }
+void *Job::job_data() const { return _job_data; }

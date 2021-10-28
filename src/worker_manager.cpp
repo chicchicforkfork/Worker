@@ -77,8 +77,8 @@ string WorkerManager::report() {
   return result;
 }
 
-void WorkerManager::add_job(const string &name, job_handler_t handler,
-                            const void *data, bool affinity) {
+void WorkerManager::add_job(const string &name, void *data,
+                            job_handler_t handler, bool affinity) {
   size_t job_id;
   size_t worker_id;
   shared_ptr<condition_variable> CV;
@@ -104,7 +104,7 @@ void WorkerManager::add_job(const string &name, job_handler_t handler,
 
   {
     lock_guard<mutex> lock(*M);
-    Q->push_back(make_shared<Job>(job_id, handler, data, affinity));
+    Q->push_back(make_shared<Job>(job_id, data, handler, affinity));
     /// worker에게 작업이 추가되었음을 알림
     CV->notify_all();
   }

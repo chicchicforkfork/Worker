@@ -110,7 +110,7 @@ private:
   std::size_t _job_id = 0;
   /// 작업 처리를 특정 worker에게 할당 여부
   bool _affinity;
-  const void *_job_data;
+  void *_job_data;
 
 public:
   /**
@@ -119,7 +119,7 @@ public:
    * @param handler 작업 처리 함수
    * @param affinity 작업 처리 특정 worker에게 할당 할지 여부
    */
-  Job(size_t job_id, job_handler_t &handler, const void *job_data,
+  Job(size_t job_id, void *job_data, job_handler_t &handler,
       bool affinity = false);
 
   /**
@@ -159,7 +159,7 @@ public:
    */
   std::size_t job_id() const;
 
-  const void *job_data() const;
+  void *job_data() const;
 };
 
 /**
@@ -238,7 +238,7 @@ public:
    * @param handler
    * @param affinity
    */
-  void add_job(const std::string &name, job_handler_t handler, const void *data,
+  void add_job(const std::string &name, void *data, job_handler_t handler,
                bool affinity = false);
   /**
    * @brief WorkerManager 수행
