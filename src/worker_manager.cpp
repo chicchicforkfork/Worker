@@ -77,6 +77,10 @@ string WorkerManager::report() {
   return result;
 }
 
+void WorkerManager::add_job(void *data, job_handler_t handler) {
+  add_job("", data, handler, false);
+}
+
 void WorkerManager::add_job(const string &name, void *data,
                             job_handler_t handler, bool affinity) {
   size_t job_id;

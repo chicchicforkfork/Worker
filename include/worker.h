@@ -239,7 +239,8 @@ public:
    * @param affinity
    */
   void add_job(const std::string &name, void *data, job_handler_t handler,
-               bool affinity = false);
+               bool affinity);
+  void add_job(void *data, job_handler_t handler);
   /**
    * @brief WorkerManager 수행
    * @param block YES인 경우 run 함수 block되어 뒤에 실행 코드가 수행 안됨\n
