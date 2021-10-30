@@ -82,6 +82,11 @@ void WorkerManager::add_job(void *data, job_handler_t handler) {
 }
 
 void WorkerManager::add_job(const string &name, void *data,
+                            job_handler_t handler) {
+  add_job(name, data, handler, true);
+}
+
+void WorkerManager::add_job(const string &name, void *data,
                             job_handler_t handler, bool affinity) {
   size_t job_id;
   size_t worker_id;
