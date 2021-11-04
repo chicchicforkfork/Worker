@@ -59,11 +59,13 @@ void WorkerManager::terminate() {
   }
 }
 
-void WorkerManager::initialize(                    //
-    worker_init_t worker_init_handler,             //
-    select_worker_id_t select_worker_id_handler) { //
+void WorkerManager::init_handler(worker_init_fn_t worker_init_handler) {
   _worker_init_handler = worker_init_handler;
-  _select_worker_id_handler = select_worker_id_handler;
+}
+
+void WorkerManager::select_worker_handler(
+    select_worker_fn_t select_worker_handler) {
+  _select_worker_handler = select_worker_handler;
 }
 
 string WorkerManager::worker_name() { return _name; }
@@ -116,8 +118,8 @@ void WorkerManager::add_job(const string &name, void *data,
   /// select worker
   /// TODO: job 분뱁 RR(Round Robin)
   if (affinity) {
-    if (_select_worker_id_handler) {
-      worker_id = _select_worker_id_handler(name) % _worker_num;
+    if (_select_worker_handler) {
+      worker_id = _select_worker_handler(name) % _worker_num;
     } else {
       auto hashcode = hash<string>{}(name);
       worker_id = hashcode % _worker_num;
