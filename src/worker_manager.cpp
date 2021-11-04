@@ -117,7 +117,7 @@ void WorkerManager::add_job(const string &name, void *data,
     worker_id = hashcode % _worker_num;
     {
       std::lock_guard<std::recursive_mutex> guard(_called_workers_lock);
-      auto w = _called_workers[worker_id];
+      auto &w = _called_workers[worker_id];
       auto mon = w.find(name);
       if (mon != w.end()) {
         mon->second++;
