@@ -30,6 +30,8 @@ using job_handler_t =
 
 using worker_init_t = std::function<void(std::shared_ptr<Worker>)>;
 
+using select_worker_id_t = std::function<uint32_t(std::string name)>;
+
 using thread_handler_t = std::function<void(
     std::shared_ptr<Worker>, std::deque<std::shared_ptr<Job>> *,
     std::shared_ptr<std::mutex>, std::shared_ptr<std::condition_variable>)>;
@@ -194,6 +196,7 @@ protected:
   size_t _job_count = 0;
   ///
   worker_init_t _worker_init_handler = nullptr;
+  select_worker_id_t _select_worker_id_handler = nullptr;
   ///
   bool _joinable = true;
 
@@ -221,7 +224,7 @@ public:
    * @brief worker thread initialize
    * @param handler
    */
-  void initialize(worker_init_t handler);
+  void initialize(worker_init_t, select_worker_id_t);
 
   /**
    * @brief 모든 worker(작업자) thread 종료할 것을 알림
