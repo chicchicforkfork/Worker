@@ -84,14 +84,16 @@ string WorkerManager::report() {
 }
 
 void WorkerManager::monitoring() {
+  printf("[WorkerManager]-----------------------\n");
   std::lock_guard<std::recursive_mutex> guard(_called_workers_lock);
   for (int i = 0; i < (int)_called_workers.size(); i++) {
     auto &w = _called_workers[i];
-    printf("thread-%d]---------------------------\n", i);
+    printf("<thread #%d (job count: %ld)>\n", i, w.size());
     for (auto &mon : w) {
-      printf("job: %s, called: %lu\n", mon.first.c_str(), mon.second);
+      printf("\tjob: %s, called: %lu\n", mon.first.c_str(), mon.second);
     }
   }
+  printf("\n\n");
 }
 
 void WorkerManager::add_job(void *data, job_handler_t handler) {
