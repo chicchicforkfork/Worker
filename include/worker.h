@@ -7,6 +7,7 @@
 #include <deque>
 #include <functional>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <mutex>
 #include <stdint.h>
@@ -196,6 +197,10 @@ protected:
   ///
   bool _joinable = true;
 
+private:
+  std::recursive_mutex _called_workers_lock;
+  std::vector<std::map<std::string, uint64_t>> _called_workers;
+
 protected:
   void _run(thread_handler_t f, bool block = false);
 
@@ -247,6 +252,8 @@ public:
    * FALSE인 경우 run 함수 호출 후 바로 리턴됨
    */
   void run(bool block = false);
+
+  void monitoring();
 };
 
 } // namespace chkchk

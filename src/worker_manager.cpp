@@ -19,6 +19,7 @@ WorkerManager::WorkerManager(const string &name, int worker_num,
     _job_Q.push_back(deque<shared_ptr<Job>>());
     _job_M.push_back(make_shared<mutex>());
     _job_CV.push_back(make_shared<condition_variable>());
+    _called_workers.push_back(map<string, uint64_t>());
   }
 }
 
@@ -77,6 +78,17 @@ string WorkerManager::report() {
   return result;
 }
 
+void WorkerManager::monitoring() {
+  std::lock_guard<std::recursive_mutex> guard(_called_workers_lock);
+  for (int i = 0; i < (int)_called_workers.size(); i++) {
+    auto &w = _called_workers[i];
+    printf("thread-%d]---------------------------\n", i);
+    for (auto &mon : w) {
+      printf("job: %s, called: %lu\n", mon.first.c_str(), mon.second);
+    }
+  }
+}
+
 void WorkerManager::add_job(void *data, job_handler_t handler) {
   add_job("", data, handler, false);
 }
@@ -98,6 +110,16 @@ void WorkerManager::add_job(const string &name, void *data,
   if (affinity) {
     auto hashcode = hash<string>{}(name);
     worker_id = hashcode % _worker_num;
+    {
+      std::lock_guard<std::recursive_mutex> guard(_called_workers_lock);
+      auto w = _called_workers[worker_id];
+      auto mon = w.find(name);
+      if (mon != w.end()) {
+        mon->second++;
+      } else {
+        w[name] = 1;
+      }
+    }
   } else {
     worker_id = job_id % _worker_num;
   }
