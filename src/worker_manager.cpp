@@ -1,6 +1,8 @@
 #include "worker.h"
 #include <iostream>
 #include <pthread.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/spdlog.h>
 
 using namespace std;
 using namespace chkchk;
@@ -11,6 +13,11 @@ WorkerManager::WorkerManager(const string &name, int worker_num,
   _name = name;
   _worker_num = worker_num;
   _wait_for_ms = chrono::milliseconds(wait_for_ms);
+
+  auto logfilepath = "/tmp/" + name + ".log";
+  auto file_logger = spdlog::basic_logger_mt(name, logfilepath);
+  spdlog::set_default_logger(file_logger);
+  spdlog::set_level(spdlog::level::trace);
 
   /// initialize job workers
   /// for multi worker
@@ -84,16 +91,15 @@ string WorkerManager::report() {
 }
 
 void WorkerManager::monitoring() {
-  printf("[WorkerManager]-----------------------\n");
+  spdlog::trace("[WorkerManager]-----------------------");
   std::lock_guard<std::recursive_mutex> guard(_called_workers_lock);
   for (int i = 0; i < (int)_called_workers.size(); i++) {
     auto &w = _called_workers[i];
-    printf("<thread #%d (job count: %ld)>\n", i, w.size());
+    spdlog::trace("<thread #{} (job: {})>", i, w.size());
     for (auto &mon : w) {
-      printf("\tjob: %s, called: %lu\n", mon.first.c_str(), mon.second);
+      spdlog::trace("\t{}: called {}", mon.first.c_str(), mon.second);
     }
   }
-  printf("\n\n");
 }
 
 void WorkerManager::add_job(void *data, job_handler_t handler) {
