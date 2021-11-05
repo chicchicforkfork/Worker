@@ -26,7 +26,6 @@ PRIVATE
     src/job.cpp
     src/worker_manager.cpp
 PUBLIC
-    spdlog
     include/worker.h
 )
 
