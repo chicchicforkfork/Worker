@@ -97,7 +97,7 @@ void WorkerManager::monitoring() {
     auto &w = _called_workers[i];
     spdlog::trace("<thread #{} (job: {})>", i, w.size());
     for (auto &mon : w) {
-      spdlog::trace("\t{}: called {}", mon.first.c_str(), mon.second);
+      spdlog::trace("\t{}: {}", mon.first.c_str(), mon.second);
     }
   }
 }
