@@ -18,6 +18,7 @@ WorkerManager::WorkerManager(const string &name, int worker_num,
   auto file_logger = spdlog::basic_logger_mt(name, logfilepath);
   spdlog::set_default_logger(file_logger);
   spdlog::set_level(spdlog::level::trace);
+  spdlog::flush_every(std::chrono::seconds(1));
 
   /// initialize job workers
   /// for multi worker
