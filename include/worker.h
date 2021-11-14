@@ -16,8 +16,6 @@
 #include <unistd.h>
 #include <vector>
 
-namespace chkchk {
-
 class WorkerManager;
 class Worker;
 class Job;
@@ -258,5 +256,4 @@ public:
   void monitoring();
 };
 
-} // namespace chkchk
 #endif

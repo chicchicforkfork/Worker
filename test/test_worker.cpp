@@ -9,7 +9,6 @@
 #include <unistd.h>
 
 using namespace std;
-using namespace chkchk;
 
 int main(int argc, char **argv) {
   WorkerManager *manager;

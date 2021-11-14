@@ -14,7 +14,6 @@
 #include <unistd.h>
 
 using namespace std;
-using namespace chkchk;
 using namespace sql;
 
 template <typename T> //

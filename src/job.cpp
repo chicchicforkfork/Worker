@@ -3,7 +3,6 @@
 #include "worker.h"
 
 using namespace std;
-using namespace chkchk;
 
 Job::Job(size_t job_id, void *job_data, job_handler_t &handler, bool affinity) {
   _job_id = job_id;

@@ -5,7 +5,6 @@
 #include <spdlog/spdlog.h>
 
 using namespace std;
-using namespace chkchk;
 
 WorkerManager::WorkerManager(const string &name, int worker_num,
                              int wait_for_ms) {

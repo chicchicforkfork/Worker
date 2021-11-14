@@ -12,7 +12,6 @@
 #include <vector>
 
 using namespace std;
-using namespace chkchk;
 
 Worker::Worker(WorkerManager *worker_manager, int worker_id) {
   _worker_manager = worker_manager;
