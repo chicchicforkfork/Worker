@@ -28,7 +28,7 @@ using job_handler_t =
 
 using worker_init_fn_t = std::function<void(std::shared_ptr<Worker>)>;
 
-using select_worker_fn_t = std::function<uint32_t(const std::string name)>;
+using select_worker_fn_t = std::function<uint32_t(const std::string &name)>;
 
 using thread_handler_t = std::function<void(
     std::shared_ptr<Worker>, std::deque<std::shared_ptr<Job>> *,
